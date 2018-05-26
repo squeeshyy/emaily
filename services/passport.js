@@ -34,22 +34,19 @@ passport.use(
       callbackURL: '/auth/google/callback', // this url has to match the url in the google developers console
       proxy: true // will allow the use of a proxy if we are sure we trust it e.g. heroku using Amazon Web Services
     },
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       // console.log('access', accessToken);
       // console.log('refresh', refreshToken);
       // console.log('profile', profile);
-      User.findOne({ googleID: profile.id }) // this will return a promise -- it's async
-        .then(existingUser => {
-          if (existingUser) {
-            // we already have a record with the given profile id
-            done(null, existingUser); // first argument is an error object, but since everything succeeded we say null - second is a user object
-          } else {
-            // no user record with this id - make a new one
-            new User({ googleID: profile.id })
-              .save() // calling .save() will save the User to the db, otherwise it'd just be instantiated -- async so we chain the promise and call done after it's done
-              .then(user => done(null, user));
-          }
-        });
+      const existingUser = await User.findOne({ googleID: profile.id }); // this will return a promise -- it's async
+
+      if (existingUser) {
+        // we already have a record with the given profile id
+        return done(null, existingUser); // first argument is an error object, but since everything succeeded we say null - second is a user object
+      }
+      // no user record with this id - make a new one
+      const user = await new User({ googleID: profile.id }).save(); // calling .save() will save the User to the db, otherwise it'd just be instantiated -- async so we chain the promise and call done after it's done
+      done(null, user);
     }
   )
 );
