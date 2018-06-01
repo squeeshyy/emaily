@@ -66,5 +66,6 @@ class Header extends Component {
 function mapStateToProps({ auth }) {
   return { auth: auth };
 }
-
-export default withRouter(connect(mapStateToProps, actions)(Header));
+// use withRouter to teach the header about react router and be able to let it navigate
+// it gives react-router-dom a history object to use inside the component
+export default connect(mapStateToProps, actions)(withRouter(Header));

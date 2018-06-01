@@ -1,4 +1,5 @@
-require('./models/user'); // this user require statement needs to go before the passport call, otherwise an error will be thrown - so passport can use after it's been defined
+require('./models/User'); // this user require statement needs to go before the passport call, otherwise an error will be thrown - so passport can use after it's been defined
+require('./models/Survey');
 require('./services/passport');
 const keys = require('./config/keys');
 const express = require('express');
@@ -27,6 +28,7 @@ app.use(passport.session());
 
 require('./routes/authRoutes')(app); // call the functions defined in the authRoutes on the APP
 require('./routes/billingRoutes')(app); // call the functions and routes defined in the billing routes on the APP component
+require('./routes/surveyRoutes')(app); // call function and routes defined in the surveyRoutes on the APP component
 
 // how to have express jive with express in production to allow routes not recognized by our express server and instead by react
 if (process.env.NODE_ENV === 'production') {

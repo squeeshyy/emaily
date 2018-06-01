@@ -10,6 +10,14 @@ import 'materialize-css/dist/css/materialize.css';
 import App from './components/App';
 import reducers from './reducers';
 
+// ********************************************************************
+// we'll create a pseudo postman testing environment by using axios in our client side to help bypass our oAuth flow
+// temporary test code to test our api/survey api route
+import axios from 'axios';
+window.axios = axios;
+// we can now use the axios library in the browser's console to test out our email send logic etc
+// ********************************************************************
+
 // first argument is where you call your reducers, second is for server side rendering, third is middleware
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 // action creators are where change is initiated inside of redux store
