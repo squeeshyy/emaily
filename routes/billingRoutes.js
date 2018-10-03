@@ -19,7 +19,7 @@ module.exports = app => {
     });
     // console.log(charge);
 
-    //Whenever we are making use of passport an da user has signed in, we can access the current user model as req.user --> passport sets this up automatically
+    //Whenever we are making use of passport and a user has signed in, we can access the current user model as req.user --> passport sets this up automatically
     // this is where we add the credits to users account after we've charged them above
     req.user.credits += 5;
     const user = await req.user.save();
